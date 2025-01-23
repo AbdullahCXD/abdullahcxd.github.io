@@ -1,4 +1,5 @@
 import type { Config } from "tailwindcss";
+import typography from '@tailwindcss/typography';
 
 const config: Config = {
   darkMode: 'class',
@@ -60,9 +61,27 @@ const config: Config = {
         sans: ['var(--font-inter)'],
         poppins: ['var(--font-poppins)'],
       },
+      typography: {
+        DEFAULT: {
+          css: {
+            'code::before': {
+              content: '""',
+            },
+            'code::after': {
+              content: '""',
+            },
+            code: {
+              backgroundColor: 'hsl(var(--muted))',
+              padding: '0.25rem 0.375rem',
+              borderRadius: '0.25rem',
+              fontWeight: '500',
+            },
+          },
+        },
+      },
     },
   },
-  plugins: [],
+  plugins: [typography],
 };
 
 export default config;

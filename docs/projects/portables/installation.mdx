@@ -1,0 +1,54 @@
+---
+title: Installation
+description: How to install and set up Portables
+date: 2025-01-23
+order: 1
+---
+
+# Installation
+
+## Prerequisites
+
+- Node.js
+- PNPM
+- Git
+
+## Installation
+
+1. Clone the repository
+```bash
+git clone https://github.com/AbdullahCXD/theportables.git
+```
+2. Navigate to the project directory
+```bash
+cd theportables
+```
+3. Run `pnpm install` to install the dependencies
+```bash
+pnpm install
+```
+4. Run `pnpm start` to start the development server
+```bash
+pnpm start
+```
+
+## Configuration
+
+<InfoBox type="warning" title="Important Notice" expandable>
+  You'll have to configure config.portables.yaml "settings.workspaceDirectory" field so Portables knows where to save it's files
+
+  The default is "workspace"
+</InfoBox>
+
+The configuration file `config.portables.yaml` supports the following options:
+```yaml
+# Version
+version: 1.0.0
+
+settings:
+    # Place where portables stores it's data and directories
+    workspaceDirectory: "workspace"
+
+    # Sends more messages for debugging use
+    debugging: false
+```

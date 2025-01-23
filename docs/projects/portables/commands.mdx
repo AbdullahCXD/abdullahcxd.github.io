@@ -1,0 +1,96 @@
+---
+title: Commands
+description: Commands of Portables
+date: 2025-01-23
+order: 2
+---
+
+# Commands
+
+To launch portables, you can use the following command:
+
+<CommandBox
+  command="pnpm start"
+  description="Launch the Portables application"
+/>
+
+## Portables Commands
+
+Portables comes with various commands to assist you in pentesting and debugging such as Creating a server, Stopping a server, etc.
+
+### Server Command
+
+The server command allows you to manage HTTP/HTTPS servers for intercepting and analyzing network traffic.
+
+<CommandBox
+  command="server"
+  description="Server management command"
+/>
+
+Available subcommands:
+
+<CommandBox
+  command="server start"
+  description="Start a new server instance on specified port"
+  args={[
+    {
+        name: "name",
+        description: "Minecraft server name",
+        required: true
+    },
+    {
+      name: "port",
+      description: "Port number to run the server on",
+      required: true
+    },
+    {
+      name: "version",
+      description: "Minecraft Version",
+      default: "1.21.4"
+    }
+  ]}
+/>
+
+<CommandBox
+  command="server stop"
+  description="Stop a running server instance"
+  args={[
+    {
+      name: "id",
+      description: "ID of the server instance to stop",
+      required: true
+    }
+  ]}
+/>
+
+<CommandBox
+  command="server list"
+  description="List all running server instances"
+/>
+
+<CommandBox
+  command="server status <id>"
+  description="Show detailed information about a specific server instance"
+  args={[
+    {
+      name: "id",
+      description: "ID of the server instance to inspect",
+      required: true
+    }
+  ]}
+/>
+
+<CommandBox
+  command="server listen <id>"
+  description="Enter Console mode into the server which allows you to execute commands inside the server only"
+  args={[
+    {
+      name: "id",
+      description: "ID of the server instance to enter console mode",
+      required: true
+    }
+  ]}
+
+/>
+
+Each server instance can be configured with custom settings like port number, SSL certificates, and request handling rules. The server provides detailed logs of all incoming requests and responses for analysis.

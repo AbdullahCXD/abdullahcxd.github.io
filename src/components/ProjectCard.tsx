@@ -2,7 +2,7 @@
 
 import Image from 'next/image'
 import { motion } from 'framer-motion'
-import { FiExternalLink, FiGithub } from 'react-icons/fi'
+import { FiBookOpen, FiExternalLink, FiGithub } from 'react-icons/fi'
 
 interface ProjectCardProps {
   title: string
@@ -11,6 +11,7 @@ interface ProjectCardProps {
   technologies: string[]
   liveUrl?: string
   githubUrl?: string
+  docsUrl?: string
 }
 
 export default function ProjectCard({
@@ -20,6 +21,7 @@ export default function ProjectCard({
   technologies,
   liveUrl,
   githubUrl,
+  docsUrl,
 }: ProjectCardProps) {
   return (
     <motion.div
@@ -68,6 +70,16 @@ export default function ProjectCard({
                 whileTap={{ scale: 0.9 }}
               >
                 <FiGithub className="w-6 h-6" />
+              </motion.a>
+            )}
+            {docsUrl && (
+              <motion.a
+                href={docsUrl}
+                className="p-3 bg-background/90 rounded-full text-primary hover:text-primary/80 transition-colors"
+                whileHover={{ scale: 1.1 }}
+                whileTap={{ scale: 0.9 }}
+              >
+                <FiBookOpen className="w-6 h-6" />
               </motion.a>
             )}
           </div>

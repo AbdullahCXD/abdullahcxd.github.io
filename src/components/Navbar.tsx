@@ -15,6 +15,7 @@ export default function Navbar() {
     { name: 'Projects', href: '#projects' },
     { name: 'Skills', href: '#skills' },
     { name: 'Contact', href: '#contact' },
+    { name: 'Docs', href: '/docs' },
   ]
 
   const socialLinks = [
@@ -38,7 +39,7 @@ export default function Navbar() {
               whileTap={{ scale: 0.95 }}
             >
               <Link
-                href="#"
+                href="/"
                 className="text-xl font-bold font-poppins bg-gradient-to-r from-primary via-secondary to-primary bg-clip-text text-transparent bg-[length:200%] animate-gradient"
               >
                 AbdullahCXD
@@ -55,7 +56,7 @@ export default function Navbar() {
                     whileTap={{ y: 0 }}
                   >
                     <Link
-                      href={item.href}
+                      href={`${item.href.startsWith('/') ? item.href : `/${item.href}`}`}
                       className="text-sm font-medium text-muted-foreground hover:text-foreground transition-colors relative group"
                     >
                       {item.name}
