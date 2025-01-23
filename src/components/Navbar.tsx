@@ -3,7 +3,7 @@
 import { useState } from 'react'
 import Link from 'next/link'
 import { motion, AnimatePresence } from 'framer-motion'
-import { FiGithub, FiLinkedin, FiMenu, FiTwitter, FiX } from 'react-icons/fi'
+import { FiGithub, FiMenu, FiTwitter, FiX } from 'react-icons/fi'
 import { useTheme } from '@/context/ThemeContext'
 
 export default function Navbar() {
