@@ -193,7 +193,7 @@ export default function DocsLayout({ children, categories }: DocsLayoutProps) {
                   onClick={toggleAllCategories}
                   className="w-full px-4 py-2 text-sm text-muted-foreground hover:text-foreground hover:bg-muted rounded-lg transition-colors"
                 >
-                  {expandedCategories.length === categories.length ? 'Collapse all' : 'Expand all'}
+                  {expandedCategories.length >= categories.length ? 'Collapse all' : 'Expand all'}
                 </button>
               </div>
 
