@@ -10,7 +10,6 @@ interface PageProps {
   params: Promise<{
     slug: string[];
   }>;
-  searchParams: { [key: string]: string | string[] | undefined };
 }
 
 export async function generateStaticParams(): Promise<{ slug: string[] }[]> {
@@ -80,7 +79,7 @@ function findCategory(categories: Category[], path: string[]): Category | null {
   return findCategory(category.categories, remainingPath);
 }
 
-export default async function DocPage({ params, searchParams }: PageProps) {
+export default async function DocPage({ params }: PageProps) {
   const { slug } = await params;
   const categories = await getAllDocs();
 
