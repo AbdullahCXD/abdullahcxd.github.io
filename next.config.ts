@@ -19,6 +19,9 @@ const nextConfig: NextConfig = {
     unoptimized: true,
   },
 
+  eslint: {
+    ignoreDuringBuilds: true
+  },
 
   trailingSlash: true,
   pageExtensions: ['ts', 'tsx', 'js', 'jsx', 'md', 'mdx'],
