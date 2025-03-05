@@ -24,7 +24,7 @@ export async function generateStaticParams() {
     slug: path,
   }));
 
-  return [...docPaths, ...categoryPaths];
+  return Promise.resolve([...docPaths, ...categoryPaths]);
 }
 
 // Helper function to get all category paths
