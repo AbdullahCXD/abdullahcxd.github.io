@@ -7,9 +7,9 @@ import { FiClock, FiCalendar } from 'react-icons/fi';
 import { mdxComponents } from '@/components/mdx/registry';
 
 interface PageProps {
-  params: {
+  params: Promise<{
     slug: string[];
-  };
+  }>;
   searchParams: { [key: string]: string | string[] | undefined };
 }
 
