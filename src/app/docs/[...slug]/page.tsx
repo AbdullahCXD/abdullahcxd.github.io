@@ -6,13 +6,14 @@ import { Metadata } from 'next';
 import { FiClock, FiCalendar } from 'react-icons/fi';
 import { mdxComponents } from '@/components/mdx/registry';
 
-interface Props {
+interface PageProps {
   params: {
     slug: string[];
   };
+  searchParams: { [key: string]: string | string[] | undefined };
 }
 
-export async function generateStaticParams() {
+export async function generateStaticParams(): Promise<{ slug: string[] }[]> {
   const paths = await getAllDocPaths();
   const docPaths = paths.map(path => ({
     slug: [...path.category.split('/'), path.slug],
@@ -24,7 +25,7 @@ export async function generateStaticParams() {
     slug: path,
   }));
 
-  return Promise.resolve([...docPaths, ...categoryPaths]);
+  return [...docPaths, ...categoryPaths];
 }
 
 // Helper function to get all category paths
@@ -43,7 +44,7 @@ function getCategoryPaths(categories: Category[], parentPath: string[] = []): st
   return paths;
 }
 
-export async function generateMetadata({ params }: Props): Promise<Metadata> {
+export async function generateMetadata({ params }: PageProps): Promise<Metadata> {
   const { slug } = await params;
   const doc = await getDocByPath([...slug, '_index']);
 
@@ -79,7 +80,7 @@ function findCategory(categories: Category[], path: string[]): Category | null {
   return findCategory(category.categories, remainingPath);
 }
 
-export default async function DocPage({ params }: Props) {
+export default async function DocPage({ params, searchParams }: PageProps) {
   const { slug } = await params;
   const categories = await getAllDocs();
 
