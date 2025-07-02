@@ -34,16 +34,6 @@ export function SkillsCommand({ ctx }: AllCommandContext) {
                 >
                     View Projects
                 </button>
-                <button
-                    onClick={() => executeCommand('experience')}
-                    className="px-3 py-1 rounded text-sm transition-colors hover:opacity-80"
-                    style={{
-                        backgroundColor: theme.success,
-                        color: theme.background
-                    }}
-                >
-                    Work Experience
-                </button>
             </div>
         </div>
     );
