@@ -1,103 +1,233 @@
-import Image from "next/image";
+'use client';
 
-export default function Home() {
+import { AboutCommand } from '@/components/commands/about';
+import { ContactCommand } from '@/components/commands/contact';
+import { HelpCommand } from '@/components/commands/help';
+import { InformationalFrame } from '@/components/commands/informational';
+import { ProjectsCommand } from '@/components/commands/projects';
+import { SkillsCommand } from '@/components/commands/skills';
+import { ThemeCommand } from '@/components/commands/theme';
+import { WelcomeMessage } from '@/components/commands/welcome';
+import { ThemeProvider, useTheme } from '@/providers/ThemeProvider';
+import React, { useState, useEffect, useRef } from 'react';
+
+export interface HistoryElement {
+  type: string,
+  content: React.ReactNode
+}
+
+export interface CommandContext {
+  executeCommand: (cmd: string) => void;
+}
+
+function TerminalContent() {
+  const [history, setHistory] = useState<HistoryElement[]>([]);
+  const [currentInput, setCurrentInput] = useState('');
+  const [isTyping, setIsTyping] = useState(false);
+  const inputRef = useRef<HTMLInputElement>(null);
+  const terminalRef = useRef<HTMLDivElement>(null);
+  const { currentTheme } = useTheme();
+
+  // Auto-focus input when clicking anywhere on terminal
+  useEffect(() => {
+    const handleClick = () => {
+      if (inputRef.current) {
+        inputRef.current.focus();
+      }
+    };
+
+    document.addEventListener('click', handleClick);
+    return () => document.removeEventListener('click', handleClick);
+  }, []);
+
+  // Auto-scroll to bottom when new content is added
+  useEffect(() => {
+    if (terminalRef.current) {
+      terminalRef.current.scrollTop = terminalRef.current.scrollHeight;
+    }
+  }, [history]);
+
+  // Initialize with welcome message
+  useEffect(() => {
+    const welcomeMessage = {
+      type: 'output',
+      content: (
+        <WelcomeMessage ctx={{
+          executeCommand
+        }} />
+      )
+    };
+    setHistory([welcomeMessage]);
+  }, []);
+
+  const commands: Record<string, () => React.ReactNode> = {
+    help: () => (
+      <HelpCommand />
+    ),
+
+    about: () => (
+      <AboutCommand ctx={{
+        executeCommand
+      }} />
+    ),
+
+    skills: () => (
+      <SkillsCommand ctx={{
+        executeCommand
+      }} />
+    ),
+
+    projects: () => (
+      <ProjectsCommand ctx={{
+        executeCommand
+      }} />
+    ),
+
+    contact: () => (
+      <ContactCommand ctx={{
+        executeCommand
+      }} />
+    ),
+
+    theme: () => (
+      <ThemeCommand ctx={{
+        executeCommand
+      }} />
+    ),
+
+    info: () => (
+      <InformationalFrame />
+    ),
+
+    clear: () => null
+  };
+
+  const executeCommand = (cmd: string) => {
+    const command = cmd.toLowerCase().trim();
+
+    // Add command to history
+    setHistory(prev => [...prev, { type: 'input', content: command }]);
+
+    if (command === 'clear') {
+      setHistory([]);
+      return;
+    }
+
+    // Execute command
+    const output = commands[command];
+    if (output) {
+      setHistory(prev => [...prev, { type: 'output', content: output() }]);
+    } else {
+      setHistory(prev => [...prev, {
+        type: 'output',
+        content: (
+          <div style={{ color: currentTheme.error }}>
+            Command not found: {command}
+            <br />
+            <span style={{ color: currentTheme.muted }}>Type 'help' to see available commands.</span>
+          </div>
+        )
+      }]);
+    }
+  };
+
+  const handleKeyPress = (e: React.KeyboardEvent) => {
+    if (e.key === 'Enter' && currentInput.trim()) {
+      executeCommand(currentInput);
+      setCurrentInput('');
+    }
+  };
+
   return (
-    <div className="grid grid-rows-[20px_1fr_20px] items-center justify-items-center min-h-screen p-8 pb-20 gap-16 sm:p-20 font-[family-name:var(--font-geist-sans)]">
-      <main className="flex flex-col gap-[32px] row-start-2 items-center sm:items-start">
-        <Image
-          className="dark:invert"
-          src="/next.svg"
-          alt="Next.js logo"
-          width={180}
-          height={38}
-          priority
-        />
-        <ol className="list-inside list-decimal text-sm/6 text-center sm:text-left font-[family-name:var(--font-geist-mono)]">
-          <li className="mb-2 tracking-[-.01em]">
-            Get started by editing{" "}
-            <code className="bg-black/[.05] dark:bg-white/[.06] px-1 py-0.5 rounded font-[family-name:var(--font-geist-mono)] font-semibold">
-              src/app/page.tsx
-            </code>
-            .
-          </li>
-          <li className="tracking-[-.01em]">
-            Save and see your changes instantly.
-          </li>
-        </ol>
-
-        <div className="flex gap-4 items-center flex-col sm:flex-row">
-          <a
-            className="rounded-full border border-solid border-transparent transition-colors flex items-center justify-center bg-foreground text-background gap-2 hover:bg-[#383838] dark:hover:bg-[#ccc] font-medium text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-5 sm:w-auto"
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <Image
-              className="dark:invert"
-              src="/vercel.svg"
-              alt="Vercel logomark"
-              width={20}
-              height={20}
-            />
-            Deploy now
-          </a>
-          <a
-            className="rounded-full border border-solid border-black/[.08] dark:border-white/[.145] transition-colors flex items-center justify-center hover:bg-[#f2f2f2] dark:hover:bg-[#1a1a1a] hover:border-transparent font-medium text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-5 w-full sm:w-auto md:w-[158px]"
-            href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Read our docs
-          </a>
+    <div
+      className="min-h-screen font-mono overflow-hidden transition-colors duration-300"
+      style={{
+        backgroundColor: currentTheme.background,
+        color: currentTheme.foreground
+      }}
+    >
+      <div
+        ref={terminalRef}
+        className="h-screen overflow-y-auto p-4 pb-20 transition-colors duration-300"
+        style={{
+          scrollbarWidth: 'thin',
+          scrollbarColor: `${currentTheme.scrollbar} ${currentTheme.background}`
+        }}
+      >
+        {/* Terminal Header */}
+        <div className="flex items-center gap-2 mb-4 text-sm">
+          <div className="ml-4" style={{ color: currentTheme.muted }}>
+            portfolio@terminal:~$ - {currentTheme.displayName} theme
+          </div>
         </div>
-      </main>
-      <footer className="row-start-3 flex gap-[24px] flex-wrap items-center justify-center">
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/file.svg"
-            alt="File icon"
-            width={16}
-            height={16}
+
+        {/* Command History */}
+        <div className="space-y-4">
+          {history.map((entry, index) => (
+            <div key={index}>
+              {entry.type === 'input' && (
+                <div className="flex items-center gap-2">
+                  <span style={{ color: currentTheme.primary }}>$</span>
+                  <span style={{ color: currentTheme.foreground }}>{entry.content}</span>
+                </div>
+              )}
+              {entry.type === 'output' && (
+                <div className="ml-4 mt-2 mb-4">
+                  {entry.content}
+                </div>
+              )}
+            </div>
+          ))}
+        </div>
+
+        {/* Current Input */}
+        <div className="flex items-center gap-2 mt-4">
+          <span style={{ color: currentTheme.primary }}>$</span>
+          <input
+            ref={inputRef}
+            type="text"
+            value={currentInput}
+            onChange={(e) => setCurrentInput(e.target.value)}
+            onKeyPress={handleKeyPress}
+            className="flex-1 bg-transparent border-none outline-none transition-colors duration-300"
+            style={{ color: currentTheme.foreground }}
+            placeholder="Type a command..."
+            autoFocus
           />
-          Learn
-        </a>
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/window.svg"
-            alt="Window icon"
-            width={16}
-            height={16}
-          />
-          Examples
-        </a>
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://nextjs.org?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/globe.svg"
-            alt="Globe icon"
-            width={16}
-            height={16}
-          />
-          Go to nextjs.org →
-        </a>
-      </footer>
+        </div>
+
+        {/* Cursor */}
+        <div
+          className="inline-block w-2 h-5 animate-pulse ml-4 mt-1 transition-colors duration-300"
+          style={{ backgroundColor: currentTheme.cursor }}
+        ></div>
+      </div>
+
+
+      {/* Custom scrollbar styles */}
+      <style jsx>{`
+        div::-webkit-scrollbar {
+          width: 8px;
+        }
+        div::-webkit-scrollbar-track {
+          background: ${currentTheme.background};
+        }
+        div::-webkit-scrollbar-thumb {
+          background: ${currentTheme.scrollbar};
+          border-radius: 4px;
+        }
+        div::-webkit-scrollbar-thumb:hover {
+          background: ${currentTheme.primary};
+        }
+      `}</style>
     </div>
+  );
+}
+
+export default function TerminalPortfolio() {
+  return (
+    <ThemeProvider>
+      <TerminalContent />
+    </ThemeProvider>
   );
 }
