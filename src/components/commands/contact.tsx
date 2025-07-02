@@ -24,34 +24,7 @@ export function ContactCommand({ ctx }: AllCommandContext) {
                 </div>
             </div>
             <div className="flex flex-wrap gap-2">
-                <button 
-                    className="flex items-center space-x-1 px-3 py-1 rounded text-sm transition-colors hover:opacity-80"
-                    style={{ 
-                        backgroundColor: theme.secondary, 
-                        color: theme.background 
-                    }}
-                >
-                    <MdEmail /> <span>Send Email</span>
-                </button>
-                <button 
-                    className="flex items-center space-x-1 px-3 py-1 rounded text-sm transition-colors hover:opacity-80"
-                    style={{ 
-                        backgroundColor: theme.success, 
-                        color: theme.background 
-                    }}
-                >
-                    <FaMessage /> <span>Schedule Call</span>
-                </button>
-                <button
-                    onClick={() => executeCommand('social')}
-                    className="px-3 py-1 rounded text-sm transition-colors hover:opacity-80"
-                    style={{ 
-                        backgroundColor: theme.accent, 
-                        color: theme.background 
-                    }}
-                >
-                    Social Links
-                </button>
+                
             </div>
         </div>
     )
