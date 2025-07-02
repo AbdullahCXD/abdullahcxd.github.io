@@ -15,9 +15,9 @@ export function WelcomeMessage({ ctx }: AllCommandContext) {
             <div className="flex flex-wrap gap-2">
                 {[
                     { cmd: 'about', bg: theme.primary },
-                    { cmd: 'skills', bg: theme.accent },
-                    { cmd: 'projects', bg: theme.warning },
-                    { cmd: 'contact', bg: theme.success },
+                    { cmd: 'skills', bg: theme.primary },
+                    { cmd: 'projects', bg: theme.primary },
+                    { cmd: 'contact', bg: theme.primary },
                 ].map(({ cmd, bg }) => (
                     <button
                         key={cmd}
