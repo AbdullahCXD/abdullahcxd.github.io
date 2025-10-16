@@ -1,4 +1,4 @@
-import { CommandContext } from "@/app/page";
+import { CommandContext } from "@/types/terminal";
 
 export interface AllCommandContext {
     ctx: CommandContext;
