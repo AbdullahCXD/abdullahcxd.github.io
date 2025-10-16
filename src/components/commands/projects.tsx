@@ -4,77 +4,62 @@ import { useTheme } from "@/providers/ThemeProvider";
 import { AllCommandContext } from "@/types/context";
 import { useState } from "react";
 import { FaExternalLinkAlt } from "react-icons/fa";
-// Enhanced Projects Command with better layout and interactions
+
+export interface ProjectButton {
+    text: string;
+    href: string;
+    primary: boolean
+}
+
+export interface Project {
+    id: string;
+    title: string;
+    tech: string[];
+    desc: string;
+    status: `Production Ready` | `Active` | `In Progress` | `Undeveloped`;
+    category: `Desktop Application` | `Web Application` | `Bot` | `Programming Language`;
+    gradient: string;
+    borderColor: string;
+    buttons: {
+        live: ProjectButton;
+        source: ProjectButton;
+    }
+}
+
+export function LiveDemoButton(href: string, primary: boolean) {
+    return {
+        text: "🔗 Live Demo",
+        href,
+        primary
+    } as ProjectButton;
+}
+
+export function SourceCodeButton(href: string, primary: boolean) {
+    return {
+        text: "📖 Source Code",
+        href,
+        primary
+    } as ProjectButton;
+}
+
 export function ProjectsCommand({ ctx }: AllCommandContext) {
     const { executeCommand } = ctx;
     const { currentTheme: theme } = useTheme();
     const [hoveredProject, setHoveredProject] = useState<string | null>(null);
 
-    const projects = [
+    const projects: Project[] = [
         {
-            id: "modkit",
-            title: "Modkit",
-            tech: ["Vite", "Electron", "TypeScript"],
-            desc: "Elegant, modern and fast code editor written in TypeScript using Vite and Electron. Features syntax highlighting, intelligent code completion, and a plugin system for extensibility.",
-            status: "🚀 Active Development",
-            category: "Desktop Application",
+            id: 'adiof-pentesting',
+            title: "Minecraft Adiof",
+            tech: [`TypeScript`, `Node.js`],
+            desc: `A pentesting tool used to debug and test locally hosted minecraft servers`,
+            status: "In Progress",
+            category: `Desktop Application`,
             gradient: `linear-gradient(135deg, ${theme.primary}20, ${theme.primary}05)`,
             borderColor: theme.primary,
             buttons: {
-                live: {
-                    text: "🔗 Live Demo",
-                    href: "https://github.com/ModKittenDev",
-                    primary: true
-                },
-                source: {
-                    text: "📖 Source Code",
-                    href: "https://github.com/ModKittenDev/modkit",
-                    primary: false
-                }
-            }
-        },
-        {
-            id: "zeo",
-            title: "Zeo Language",
-            tech: ["Java", "JVM", "Compiler Design"],
-            desc: "Cool and easy to use JVM language that transpiles to Java and runs on the JVM. Features modern syntax, type inference, and seamless Java interoperability.",
-            status: "⚡ In Progress",
-            category: "Programming Language",
-            gradient: `linear-gradient(135deg, ${theme.accent}20, ${theme.accent}05)`,
-            borderColor: theme.accent,
-            buttons: {
-                live: {
-                    text: "🔗 Repository",
-                    href: "https://github.com/zeolang/zeo",
-                    primary: true
-                },
-                source: {
-                    text: "📚 Documentation",
-                    href: "https://github.com/zeolang/zeo",
-                    primary: false
-                }
-            }
-        },
-        {
-            id: "moony",
-            title: "Moony Bot",
-            tech: ["TypeScript", "Discord.js", "Node.js"],
-            desc: "Comprehensive and extensive Discord bot with multipurpose features including moderation, entertainment, utility commands, and advanced server management tools.",
-            status: "⚡ In Progress",
-            category: "Discord Bot",
-            gradient: `linear-gradient(135deg, ${theme.secondary}20, ${theme.secondary}05)`,
-            borderColor: theme.secondary,
-            buttons: {
-                live: {
-                    text: "🌐 Visit Website",
-                    href: "https://moonybot.xyz",
-                    primary: true
-                },
-                source: {
-                    text: "➕ Add to Server",
-                    href: "https://moonybot.xyz",
-                    primary: false
-                }
+                live: LiveDemoButton("https://github.com/AbdullahCXD/adiof-pentesting", true),
+                source: SourceCodeButton("https://github.com/AbdullahCXD/adiof-pentesting", false)
             }
         }
     ];
@@ -298,7 +283,7 @@ export function ProjectsCommand({ ctx }: AllCommandContext) {
                             className="text-2xl font-bold"
                             style={{ color: theme.secondary }}
                         >
-                            {projects.filter(p => p.status.includes('Production')).length}
+                            {projects.filter(p => p.status === "Production Ready").length}
                         </div>
                         <div 
                             className="text-xs opacity-80"
