@@ -1,7 +1,7 @@
 // InformationalFrame.tsx
 import { useTheme } from "@/providers/ThemeProvider";
-import { RiNextjsFill, RiTailwindCssFill, RiTerminalBoxLine, RiCodeSSlashLine, RiGitBranchLine, RiRocketLine } from "react-icons/ri";
-import { Fragment, useState, useEffect } from "react";
+import { RiTerminalBoxLine, RiCodeSSlashLine, RiGitBranchLine, RiRocketLine } from "react-icons/ri";
+import { useState, useEffect } from "react";
 import { AllCommandContext } from "@/types/context";
 
 function TypewriterText({ text, delay = 50 }: { text: string; delay?: number }) {

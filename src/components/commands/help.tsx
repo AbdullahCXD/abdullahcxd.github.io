@@ -1,4 +1,3 @@
-
 // HelpCommand.tsx
 import { useTheme } from "@/providers/ThemeProvider";
 import { RiInformationLine, RiUserLine, RiCodeSSlashLine, RiFolderLine, RiMailLine, RiPaletteLine, RiDeleteBin6Line, RiQuestionLine, RiArrowRightSLine } from "react-icons/ri";
@@ -24,8 +23,8 @@ export function HelpCommand(props: AllCommandContext) {
             description: "Display system information and project details",
             icon: RiInformationLine,
             category: "info",
-            usage: "info",
-            examples: ["info - Shows welcome message and project info"]
+            usage: "info [--verbose]",
+            examples: ["info - Shows system information", "info --verbose - Shows detailed system info"]
         },
         {
             name: "about",
@@ -48,8 +47,8 @@ export function HelpCommand(props: AllCommandContext) {
             description: "Browse through my portfolio of projects and work",
             icon: RiFolderLine,
             category: "professional",
-            usage: "projects [filter]",
-            examples: ["projects - Lists all projects", "projects web - Filter web projects"]
+            usage: "projects [options]",
+            examples: ["projects - Lists all projects", "projects --filter react - Filter by tech"]
         },
         {
             name: "contact",
@@ -64,8 +63,8 @@ export function HelpCommand(props: AllCommandContext) {
             description: "Customize terminal appearance and color scheme",
             icon: RiPaletteLine,
             category: "system",
-            usage: "theme [name]",
-            examples: ["theme - Shows available themes", "theme dark - Switch to dark theme"]
+            usage: "theme [--name theme] [--list]",
+            examples: ["theme --list - Shows available themes", "theme --name matrix - Switch theme"]
         },
         {
             name: "clear",
@@ -74,6 +73,14 @@ export function HelpCommand(props: AllCommandContext) {
             category: "system",
             usage: "clear",
             examples: ["clear - Clears all terminal output"]
+        },
+        {
+            name: "echo",
+            description: "Display text to the terminal with optional colors",
+            icon: RiCodeSSlashLine,
+            category: "system",
+            usage: "echo \"text\" [--color colorname]",
+            examples: ["echo \"Hello\" - Displays text", "echo \"Hello\" --color green - Colored output"]
         }
     ];
 
@@ -211,15 +218,47 @@ export function HelpCommand(props: AllCommandContext) {
                     backgroundColor: theme.accent + '05'
                 }}
             >
-                <div className="text-sm space-y-2">
+                <div className="text-sm space-y-3">
                     <div className="font-semibold mb-2" style={{ color: theme.accent }}>
+                        ⌨️ Keyboard Shortcuts:
+                    </div>
+                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-2 text-xs">
+                        <div className="flex items-center gap-2">
+                            <code className="px-2 py-0.5 rounded" style={{backgroundColor: theme.primary + '20', color: theme.primary}}>↑ ↓</code>
+                            <span>Navigate suggestions</span>
+                        </div>
+                        <div className="flex items-center gap-2">
+                            <code className="px-2 py-0.5 rounded" style={{backgroundColor: theme.primary + '20', color: theme.primary}}>Tab</code>
+                            <span>Complete command</span>
+                        </div>
+                        <div className="flex items-center gap-2">
+                            <code className="px-2 py-0.5 rounded" style={{backgroundColor: theme.primary + '20', color: theme.primary}}>Enter</code>
+                            <span>Execute command</span>
+                        </div>
+                        <div className="flex items-center gap-2">
+                            <code className="px-2 py-0.5 rounded" style={{backgroundColor: theme.primary + '20', color: theme.primary}}>Esc</code>
+                            <span>Close suggestions</span>
+                        </div>
+                        <div className="flex items-center gap-2">
+                            <code className="px-2 py-0.5 rounded" style={{backgroundColor: theme.primary + '20', color: theme.primary}}>Ctrl+A</code>
+                            <span>Focus input field</span>
+                        </div>
+                        <div className="flex items-center gap-2">
+                            <code className="px-2 py-0.5 rounded" style={{backgroundColor: theme.primary + '20', color: theme.primary}}>Click</code>
+                            <span>Focus terminal</span>
+                        </div>
+                    </div>
+                </div>
+                
+                <div className="text-sm space-y-2 mt-4 pt-4 border-t" style={{ borderColor: theme.accent + '20' }}>
+                    <div className="font-semibold" style={{ color: theme.accent }}>
                         💡 Pro Tips:
                     </div>
                     <div className="grid grid-cols-1 sm:grid-cols-2 gap-2 text-xs">
-                        <div>• Use autocomplete by typing partial command names</div>
-                        <div>• Navigate suggestions with arrow keys</div>
-                        <div>• Press Tab to complete commands quickly</div>
-                        <div>• Type 'clear' to reset the terminal</div>
+                        <div>• Type partial command names for autocomplete</div>
+                        <div>• Use --help flag for command details</div>
+                        <div>• Suggestions update as you type</div>
+                        <div>• Terminal stays responsive and fast</div>
                     </div>
                 </div>
             </div>

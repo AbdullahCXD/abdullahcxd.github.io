@@ -17,7 +17,7 @@ export interface Project {
     tech: string[];
     desc: string;
     status: `Production Ready` | `Active` | `In Progress` | `Undeveloped`;
-    category: `Desktop Application` | `Web Application` | `Bot` | `Programming Language`;
+    category: `Desktop Application` | `Web Application` | `Bot` | `Programming Language` | `Minecraft Plugin` | `Minecraft Mod`;
     gradient: string;
     borderColor: string;
     buttons: {
@@ -49,19 +49,33 @@ export function ProjectsCommand({ ctx }: AllCommandContext) {
 
     const projects: Project[] = [
         {
-            id: 'adiof-pentesting',
-            title: "Minecraft Adiof",
-            tech: [`TypeScript`, `Node.js`],
-            desc: `A pentesting tool used to debug and test locally hosted minecraft servers`,
-            status: "In Progress",
-            category: `Desktop Application`,
+            id: 'soliditycore',
+            title: "SolidityCore",
+            tech: [`Java`, `PaperMC`],
+            desc: `A Minecraft library used to simplify creating plugins by adding more utilities and builders to the development process for developers to use.`,
+            status: "Active",
+            category: `Minecraft Plugin`,
             gradient: `linear-gradient(135deg, ${theme.primary}20, ${theme.primary}05)`,
             borderColor: theme.primary,
             buttons: {
-                live: LiveDemoButton("https://github.com/AbdullahCXD/adiof-pentesting", true),
-                source: SourceCodeButton("https://github.com/AbdullahCXD/adiof-pentesting", false)
+                live: LiveDemoButton("https://modrinth.com/plugin/soliditycore", true),
+                source: SourceCodeButton("https://github.com/oSolidityDev/SolidityCore/", false)
             }
-        }
+        },
+        {
+            id: 'portfolio',
+            title: "Interactive Terminal Portfolio",
+            tech: [`Next.js`, `React`, `TypeScript`, `Tailwind CSS`],
+            desc: `This modern portfolio website featuring an interactive terminal interface built with Next.js 15. Showcase skills and projects in a unique, engaging way.`,
+            status: "Active",
+            category: `Web Application`,
+            gradient: `linear-gradient(135deg, ${theme.secondary}20, ${theme.secondary}05)`,
+            borderColor: theme.secondary,
+            buttons: {
+                live: LiveDemoButton("https://abdullahcxd.is-a.dev", true),
+                source: SourceCodeButton("https://github.com/abdullahcxd/abdullahcxd.github.io", false)
+            }
+        },
     ];
 
     const handleRedirect = (url: string) => {

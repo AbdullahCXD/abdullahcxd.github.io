@@ -8,7 +8,7 @@ export function AboutCommand({ ctx }: AllCommandContext) {
     const { executeCommand } = ctx;
     const { currentTheme: theme } = useTheme();
 
-    const skills = ["React", "TypeScript", "Node.js", "Python"];
+    const skills = ["React", "TypeScript", "Node.js", "Python", "Java"];
     const interests = ["Open Source", "My beloved React.js"];
 
     return (
@@ -75,7 +75,7 @@ export function AboutCommand({ ctx }: AllCommandContext) {
                             className="font-semibold mb-2 flex items-center gap-2"
                             style={{ color: theme.secondary }}
                         >
-                            <span><ToolCase className="size-4" /></span> Main Technologies
+                            <span><ToolCase className="size-4" /></span> What I use for my work
                         </h3>
                         <div className="flex flex-wrap gap-2">
                             {skills.map((skill, index) => (

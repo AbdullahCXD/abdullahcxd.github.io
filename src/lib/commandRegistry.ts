@@ -83,5 +83,11 @@ export const commandsInfo: CommandInfo[] = [
       { name: 'color', description: 'Text color', required: false, type: 'option', options: ['red', 'green', 'blue', 'yellow', 'cyan', 'magenta'] }
     ],
     examples: ['echo "Hello World"', 'echo "Colored text" --color green']
+  },
+  {
+    name: 'quit',
+    description: 'Exit the terminal (alias for clear)',
+    category: 'system',
+    examples: ['quit']
   }
 ];

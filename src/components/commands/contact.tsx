@@ -9,7 +9,6 @@ import { FaExternalLinkAlt } from "react-icons/fa";
 
 // Enhanced Contact Command with copy functionality and better animations
 export function ContactCommand({ ctx }: AllCommandContext) {
-    const { executeCommand } = ctx;
     const { currentTheme: theme } = useTheme();
     const [copiedEmail, setCopiedEmail] = useState(false);
 

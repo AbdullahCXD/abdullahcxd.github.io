@@ -8,6 +8,8 @@ import { ProjectsCommand } from '@/components/commands/projects';
 import { SkillsCommand } from '@/components/commands/skills';
 import { ThemeCommand } from '@/components/commands/theme';
 import { WelcomeMessage } from '@/components/commands/welcome';
+import { EchoCommand } from '@/components/commands/echo';
+import { InfoCommand } from '@/components/commands/info';
 import { HistoryElement, ParsedCommand, CommandInfo } from '@/types/terminal';
 import { parseCommand } from '@/lib/commandParser';
 import { commandsInfo } from '@/lib/commandRegistry';
@@ -32,14 +34,30 @@ export function Terminal() {
     }
   }, [history]);
 
+  // Save history to sessionStorage whenever it changes
+  useEffect(() => {
+    if (typeof window !== 'undefined' && window.sessionStorage) {
+      try {
+        sessionStorage.setItem('terminal-history', JSON.stringify(history));
+      } catch (e) {
+        // Silently fail if sessionStorage is unavailable
+      }
+    }
+  }, [history]);
+
   // Initialize with welcome message
   useEffect(() => {
     const welcomeMessage = {
       type: 'output',
       content: (
-        <WelcomeMessage args={{}} ctx={{
-          executeCommand
-        }} />
+        <div className='space-y-2'>
+          <WelcomeMessage args={{}} ctx={{
+            executeCommand
+          }} />
+          <InformationalFrame args={{}} ctx={{
+            executeCommand
+          }} />
+        </div>
       )
     };
     setHistory([welcomeMessage]);
@@ -62,10 +80,10 @@ export function Terminal() {
           suggestions.push(flagName);
         } else if (arg.options) {
           arg.options.forEach(option => {
-            suggestions.push(`\${flagName} \${option}\``);
+            suggestions.push(`${flagName} ${option}`);
           });
         } else {
-          suggestions.push(`\${flagName} <\${arg.type}>\``);
+          suggestions.push(`${flagName} <${arg.type}>`);
         }
       }
     });
@@ -138,26 +156,9 @@ export function Terminal() {
     projects: (parsed) => <ProjectsCommand ctx={{ executeCommand }} args={parsed.args} />,
     contact: (parsed) => <ContactCommand ctx={{ executeCommand }} args={parsed.args} />,
     theme: (parsed) => <ThemeCommand ctx={{ executeCommand }} args={parsed.args} />,
-    info: (parsed) => <InformationalFrame ctx={{ executeCommand }} args={parsed.args} />,
+    info: (parsed) => <InfoCommand args={parsed.args} ctx={{ executeCommand }} />,
+    echo: (parsed) => <EchoCommand args={parsed.args} ctx={{ executeCommand }} />,
     clear: () => null,
-    echo: (parsed) => {
-      const text = parsed.rawArgs.join(' ') || parsed.args.text || '';
-      const color = parsed.args.color;
-      const colorMap: Record<string, string> = {
-        red: '#ff6b6b',
-        green: '#51cf66',
-        blue: '#339af0',
-        yellow: '#ffd43b',
-        cyan: '#22d3ee',
-        magenta: '#e879f9'
-      };
-      
-      return (
-        <div style={{ color: color ? colorMap[color] || currentTheme.foreground : currentTheme.foreground }}>
-          {text}
-        </div>
-      );
-    }
   };
 
   const executeCommand = (input: string) => {
@@ -169,7 +170,8 @@ export function Terminal() {
     // Add command to history
     setHistory(prev => [...prev, { type: 'input', content: input }]);
 
-    if (parsed.command === 'clear') {
+    // Handle clear and quit commands
+    if (parsed.command === 'clear' || parsed.command === 'quit') {
       setHistory([]);
       return;
     }
