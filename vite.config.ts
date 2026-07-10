@@ -9,13 +9,11 @@ export default defineConfig({
     tsConfigPaths(),
     tailwindcss(),
     tanstackStart({
-      // static prerendering — no server runtime needed
       prerender: {
-        crawlLinks: true, // discover routes by crawling links from entry pages
+        enabled: true,
+        crawlLinks: true,
       },
-      pages: [
-        { path: "/" }, // list any routes not reachable via crawling
-      ],
+      pages: [{ path: "/" }],
     }),
     viteReact(),
   ],
