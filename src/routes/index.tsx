@@ -14,24 +14,7 @@ const projects = [
     name: "RefineryCore",
     note: "Unified plugin framework — commands, storage, packet utils.",
     stack: "Java / Paper API",
-  },
-  {
-    id: "002",
-    name: "Discord_Bridge_Bot",
-    note: "Two-way chat + moderation link between Discord and Minecraft.",
-    stack: "TypeScript / discord.js",
-  },
-  {
-    id: "003",
-    name: "Async_Command_Manager",
-    note: "Non-blocking command dispatcher with cooldowns & permissions.",
-    stack: "Kotlin / Coroutines",
-  },
-  {
-    id: "004",
-    name: "Server_Config_Presets",
-    note: "Battle-tested configs for competitive SMP & minigame servers.",
-    stack: "YAML / Bash",
+    url: "https://refineryteam.xyz"
   },
 ];
 
@@ -39,7 +22,7 @@ const services = [
   {
     n: "01",
     title: "Minecraft Plugin Development",
-    body: "Custom Paper/Spigot/Velocity plugins tuned for high tick budgets and 500+ concurrent players.",
+    body: "Creating custom plugins for Minecraft Servers to fit their needs.",
   },
   {
     n: "02",
@@ -162,7 +145,7 @@ function Index() {
               </p>
               <ul className="font-display text-xs space-y-3 pt-2">
                 {[
-                  ["STACK", "Java · Kotlin · TS · SQL"],
+                  ["STACK", "Java · Lua · JS · TS · SQL"],
                   ["FOCUS", "Plugins · Bots · Server ops"],
                   ["ROLE", "Dev @ RefineryTeam"],
                   ["STUDY", "B.Sc. IT — year 2"],
@@ -205,7 +188,7 @@ function Index() {
               {projects.map((p) => (
                 <li key={p.id}>
                   <a
-                    href="#contact"
+                    href={p.url ?? "#contact"}
                     className="group grid grid-cols-[auto_1fr_auto] items-baseline gap-6 py-5 border-b border-foreground/10 hover:bg-paper-alt px-2 -mx-2 transition-colors"
                   >
                     <span className="font-display text-xs text-ink-muted/50 tabular-nums">
